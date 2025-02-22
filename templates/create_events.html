@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventEase - Create Event</title>
+    <!-- Fixed CSS path using url_for -->
+     <!-- Keep reference to events.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='events.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Baskerville:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <!-- Fixed back link using url_for -->
+            <a href="{{ url_for('home') }}" class="back-link">Back to Events</a>
+        </div>
+    </header>  <!-- Removed stray 's' character here -->
+    <main>
+        <div class="form-container">
+            <div class="form-box">
+                <h2>Create New Event</h2>
+                <form id="create-event-form" method="POST" action="{{ url_for('create_events') }}">
+                    <input type="text" id="title" name="title" placeholder="Event Title" required>
+                    <textarea id="description" name="description" placeholder="Event Description" required></textarea>
+                    
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <select id="category" name="category" required>
+                            <option value="academic">Academic</option>
+                            <option value="sports">Sports</option>
+                            <option value="cultural">Cultural</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="time">Time:</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                    
+                    <input type="text" id="location" name="location" placeholder="Event Location" required>
+                    <button type="submit" class="btn">Create Event</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

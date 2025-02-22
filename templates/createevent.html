@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventEase - Create Event</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='event.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Baskerville:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <a href="{{ url_for('home') }}" class="logo">EventEase</a>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('logout') }}" class="btn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="events-page">
+            <h1>Create New Event</h1>
+            <div class="create-event-form">
+                <form method="POST" action="{{ url_for('create_event') }}">
+                    <div class="form-group">
+                        <label for="title">Event Title</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Event Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="academic">Academic</option>
+                            <option value="sports">Sports</option>
+                            <option value="cultural">Cultural</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" rows="4" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Create Event</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

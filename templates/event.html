@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventEase - Events</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='events.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Baskerville:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <a href="{{ url_for('home') }}" class="logo">EventEase</a>
+            <nav>
+                <ul>
+                    {% if session['user_type'] == 'club' %}
+                    <li><a href="{{ url_for('create_events') }}" class="btn create-btn">Create Event</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('logout') }}" class="btn logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="events-page">
+            <h1>Upcoming Events</h1>
+            
+            <!-- Filter buttons -->
+            <div class="filter-options">
+                <button class="filter-btn" data-category="all">All</button>
+                <button class="filter-btn" data-category="academic">Academic</button>
+                <button class="filter-btn" data-category="sports">Sports</button>
+                <button class="filter-btn" data-category="cultural">Cultural</button>
+            </div>
+            
+            <!-- Events list populated from the database -->
+            <div class="events-list">
+                {% if events %}
+                    {% for event in events %}
+                    <div class="event-card" data-category="{{ event.get('category', 'all').lower() }}">
+                        <h2>{{ event.get('title', 'Untitled Event') }}</h2>
+                        <p>Date: {{ event.get('date', 'TBA') }}</p>
+                        <p>Time: {{ event.get('event_time', 'TBA') }}</p>
+                        <p>Location: {{ event.get('location', 'TBA') }}</p>
+                        <p>Category: <span class="event-category {{ event.get('category', 'academic').lower() }}">{{ event.get('category', 'Academic') }}</span></p>
+                        <p>{{ event.get('description', '')[:100] }}{% if event.get('description', '')|length > 100 %}...{% endif %}</p>
+                        <a href="{{ url_for('event_details', event_id=event.id) }}" class="btn view-btn">View Details</a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-events">No events found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Filtering events based on category
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                
+                // Set active class
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter event cards
+                document.querySelectorAll('.event-card').forEach(card => {
+                    if (category === 'all' || card.getAttribute('data-category') === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Set "All" button as active by default
+        document.querySelector('.filter-btn[data-category="all"]').classList.add('active');
+    </script>
+</body>
+</html>

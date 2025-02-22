@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventEase - Event Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='event_details.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Baskerville:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <a href="{{ url_for('home') }}" class="logo">EventEase</a>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}" class="btn">Back to Events</a></li>
+                    <li><a href="{{ url_for('logout') }}" class="btn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="events-page">
+            <div class="event-details">
+                <h1>{{ event.get('title', 'Event Details') }}</h1>
+                <div class="event-info">
+                    <p><strong>Date:</strong> {{ event.get('date', 'TBA') }}</p>
+                    <p><strong>Location:</strong> {{ event.get('location', 'TBA') }}</p>
+                    <p><strong>Category:</strong> {{ event.get('category', 'General').title() }}</p>
+                    <p class="description"><strong>Description:</strong><br>{{ event.get('description', 'No description available.') }}</p>
+                </div>
+                
+                {% if session['user_type'] == 'student' %}
+                <div class="rsvp-form">
+                    <h2>RSVP for this Event</h2>
+                    {% if message %}
+                        <p class="message success">{{ message }}</p>
+                    {% endif %}
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile">Mobile Number</label>
+                            <input type="tel" id="mobile" name="mobile" required>
+                        </div>
+                        <button type="submit" class="btn">RSVP Now</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>

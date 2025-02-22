@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventEase - Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Baskerville&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Create Account</h2>
+        <form method="POST" action="{{ url_for('register') }}" novalidate>
+            <div class="input-group">
+                <input 
+                    type="email" 
+                    name="email" 
+                    placeholder="Email Address"
+                    required 
+                    autocomplete="email"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                >
+            </div>
+            <div class="input-group">
+                <input 
+                    type="password" 
+                    name="password" 
+                    placeholder="Password"
+                    required 
+                    minlength="6"
+                    autocomplete="new-password"
+                >
+            </div>
+            <div class="input-group">
+                <select name="user_type" required>
+                    <option value="" disabled selected>Select Account Type</option>
+                    <option value="student">Student</option>
+                    <option value="club">Club</option>
+                </select>
+            </div>
+            {% if message %}
+            <div class="message error">
+                {{ message }}
+            </div>
+            {% endif %}
+            <button type="submit" class="btn">Create Account</button>
+        </form>
+        <p class="helper-text">
+            Already have an account? <a href="{{ url_for('login') }}">Sign in here</a>
+        </p>
+    </div>
+
+    <script>
+        // Simple client-side validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const email = document.querySelector('input[type="email"]');
+            const password = document.querySelector('input[type="password"]');
+            const userType = document.querySelector('select[name="user_type"]');
+            
+            let isValid = true;
+            
+            // Reset previous error states
+            document.querySelectorAll('.input-group').forEach(group => {
+                group.classList.remove('error');
+            });
+
+            // Email validation
+            if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                email.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            // Password validation
+            if (password.value.length < 6) {
+                password.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            // User type validation
+            if (!userType.value) {
+                userType.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
